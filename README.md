@@ -25,12 +25,28 @@ other:
 * use autologin with ssh
 * have a computer to use it on
 
+NOTE for mac users:
+* replace xclip with (xclip-for-mac)[https://github.com/siers/xclip-for-mac], and alias/link it to xclip
+* use the notify-send script included with the repo
 
 ### insall
+for linx:
 ```
 cargo build --release
 sudo cp /target/release/server_upload /usr/local/bin/
 ```
+
+for mac:
+```
+cargo build --release
+sudo cp target/release/server_upload /usr/local/bin/
+sudo cp other/notify-send /usr/local/bin/
+sudo chmod o+x /usr/local/bin/notify-send
+
+install xclip-for-mac and alias/link to to xclip
+```
+
+
 
 ### usage
 
