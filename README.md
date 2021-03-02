@@ -26,7 +26,7 @@ other:
 * have a computer to use it on
 
 NOTE for mac users:
-* replace xclip with (xclip-for-mac)[https://github.com/siers/xclip-for-mac], and alias/link it to xclip
+* replace xclip with [xclip-for-mac](https://github.com/siers/xclip-for-mac), and alias/link it to xclip
 * use the notify-send script included with the repo
 
 ### insall
