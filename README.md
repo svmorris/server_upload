@@ -54,8 +54,9 @@ const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
 ```
 * HOSTING_PATH is a link to the server hosting the file
 * this should be a webserver that has access to the folder SERVER_PATH
+```
 const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
-
+```
 
 
 
