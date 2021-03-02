@@ -17,6 +17,7 @@ programs:
 ```
 cargo
 rsync
+xclip
 notify-send
 ```
 other:
