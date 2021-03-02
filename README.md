@@ -46,6 +46,8 @@ sudo chmod o+x /usr/local/bin/notify-send
 install xclip-for-mac and alias/link it to to xclip
 ```
 
+for windows:
+im sorry
 
 
 ### usage
