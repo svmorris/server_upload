@@ -47,7 +47,8 @@ install xclip-for-mac and alias/link it to to xclip
 ```
 
 for windows:
-im sorry
+* im sorry
+* im sure there are other cool programs for you elsewhere
 
 
 ### usage
