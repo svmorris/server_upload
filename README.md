@@ -86,7 +86,7 @@ for windows:
 
 you can start monitoring by running `server_upload &`
 
-recomended would be to use something like rofi that will keep the process running in the background
+recomended would be to use something like `rofi` that will keep the process running in the background
 
 you could also add it to your crontab
 ```
