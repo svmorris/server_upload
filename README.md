@@ -29,6 +29,36 @@ NOTE for mac users:
 * replace xclip with [xclip-for-mac](https://github.com/siers/xclip-for-mac), and alias/link it to xclip
 * use the notify-send script included with the repo
 
+### setup
+you need to edit some variables in `src/main.rs`
+
+* if multiple files are copied in the folder, TIMOUT sets the time from adding the link of the first file to the clipboard to starting work on the next one
+```
+const TIMEOUT: u64        = 3000;
+```
+
+* SCAN_TIMEOUT sets the interval of the program checking for new files
+* make this larger if the program uses too much cpu
+```
+const SCAN_TIMEOUT: u64   = 1000;
+```
+
+* FOLDERPATH sets the monitored folder
+```
+const FOLDERPATH: &str    = "/tmp/upload_file/";
+```
+
+* SERVER_PATH is where rsync will upload the file
+```
+const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
+```
+* HOSTING_PATH is a link to the server hosting the file
+* this should be a webserver that has access to the folder SERVER_PATH
+const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
+
+
+
+
 ### insall
 for linx:
 ```
