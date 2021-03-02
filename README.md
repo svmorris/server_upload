@@ -10,9 +10,21 @@ what this program does:
 * deletes the file
 
 
-
 setup and usage
 ===============
+### dependencies
+programs:
+```
+cargo
+rsync
+notify-send
+```
+other:
+* have a webserver that it can upload to
+* use autologin with ssh
+* have a computer to use it on
+
+
 ### insall
 ```
 cargo build --release
