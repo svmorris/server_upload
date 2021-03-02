@@ -57,8 +57,12 @@ fn get_file() -> String
             // check if said path is a file
             if Path::new(&filepath_static).metadata().unwrap().is_file() == true
             {
-                // return if file
-                return _filename;
+                // make sure its not a part file
+                if _filename.contains(".part") == false || _filename.contains(".temp.") == false || _filename.contains(".f137.") == false
+                {
+                    // return if file
+                    return _filename;
+                }
             }
         }
 

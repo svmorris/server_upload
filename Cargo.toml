@@ -1,5 +1,5 @@
 [package]
-name = "main"
+name = "server_upload"
 version = "0.1.0"
 authors = ["thomasthethermonuclearbomb <morrissebestyen@gmail.com>"]
 edition = "2018"

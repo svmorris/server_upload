@@ -13,14 +13,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b7282d924be3275cec7f6756ff4121987bc6481325397dde6ba3e7802b1a8b1c"
 
 [[package]]
-name = "main"
-version = "0.1.0"
-dependencies = [
- "subprocess",
- "uuid",
-]
-
-[[package]]
 name = "rand"
 version = "0.3.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -72,6 +64,14 @@ name = "serde"
 version = "0.9.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34b623917345a631dc9608d5194cc206b3fe6c3554cd1c75b937e55e285254af"
+
+[[package]]
+name = "server_upload"
+version = "0.1.0"
+dependencies = [
+ "subprocess",
+ "uuid",
+]
 
 [[package]]
 name = "subprocess"
