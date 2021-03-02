@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+text=$1
+if [[ $2 == "" ]]; then
+    title="notify-send"
+else
+    title=$2
+fi
+
+osascript -e "display notification \"$text\" with title \"$title\""
