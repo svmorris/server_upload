@@ -58,6 +58,13 @@ const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
 const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
 ```
 
+* if any string from BLACKLIST found in the name of a file than the program will ignore it
+* this is useful for .part and temp files that are used by programs while downloading
+* **NOTE**: when modifying it make sure to change the array length `[&str; 3]` to reflect changes
+```
+const BLACKLIST:[&str; 3] = [".part", ".temp", ".f127."];
+```
+
 
 
 ### insall

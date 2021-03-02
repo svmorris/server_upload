@@ -11,6 +11,7 @@ const SCAN_TIMEOUT: u64   = 1000;
 const FOLDERPATH: &str    = "/tmp/upload_file/";
 const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
 const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
+const BLACKLIST:[&str; 3] = [".part", ".temp", ".f127."];
 
 
 fn main()
@@ -58,7 +59,18 @@ fn get_file() -> String
             if Path::new(&filepath_static).metadata().unwrap().is_file() == true
             {
                 // make sure its not a part file
-                if _filename.contains(".part") == false || _filename.contains(".temp.") == false || _filename.contains(".f137.") == false
+                let mut valid = true;
+
+                for item in BLACKLIST.iter()
+                {
+                    if _filename.contains(item)
+                    {
+                        valid = false;
+                    }
+                }
+
+
+                if valid
                 {
                     // return if file
                     return _filename;
@@ -101,14 +113,30 @@ fn setup()
         for path in paths
         {
             // get filepath and name
-            let filepath_static = FOLDERPATH.to_owned() + &*String::from(path.unwrap().file_name().into_string().unwrap());
+            let _filename = path.unwrap().file_name().into_string().unwrap();
+            let filepath_static = FOLDERPATH.to_owned() + &_filename;
 
-            // delete the file
-            Command::new("rm")
-                .arg("-rf")
-                .arg(filepath_static)
-                .output()
-                .expect("Failed to delete file!");
+
+
+            let mut valid = true;
+            for item in BLACKLIST.iter()
+            {
+                if _filename.contains(item)
+                {
+                    valid = false;
+                }
+                println!("{} == {} : {:?}", item, _filename, valid)
+            }
+            if valid
+            {
+                // delete the file
+                Command::new("rm")
+                    .arg("-rf")
+                    .arg(filepath_static)
+                    .output()
+                    .expect("Failed to delete file!");
+            }
+
 
             return;
         }
