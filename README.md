@@ -43,7 +43,7 @@ sudo cp target/release/server_upload /usr/local/bin/
 sudo cp other/notify-send /usr/local/bin/
 sudo chmod o+x /usr/local/bin/notify-send
 
-install xclip-for-mac and alias/link to to xclip
+install xclip-for-mac and alias/link it to to xclip
 ```
 
 
