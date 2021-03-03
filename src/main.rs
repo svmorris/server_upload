@@ -11,7 +11,8 @@ const SCAN_TIMEOUT: u64   = 1000;
 const FOLDERPATH: &str    = "/tmp/upload_file/";
 const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
 const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
-const BLACKLIST:[&str; 3] = [".part", ".temp", ".f127."];
+const UPLOAD_SUFFIX: &str = ".__uploading__";
+const BLACKLIST:[&str; 7] = [UPLOAD_SUFFIX, ".temp", ".f127.", ".f299.", ".DS_Store", ".part", ".m4a"];
 
 
 fn main()
@@ -63,6 +64,7 @@ fn get_file() -> String
 
                 for item in BLACKLIST.iter()
                 {
+                    println!("{} == {} : {:?}", item, _filename, !valid);
                     if _filename.contains(item)
                     {
                         valid = false;
@@ -72,7 +74,13 @@ fn get_file() -> String
 
                 if valid
                 {
-                    // return if file
+                    // create indicator file that the program has started uploading
+                    println!("creating temp file: ");
+                    Command::new("touch")
+                        .arg(FOLDERPATH.to_owned() + &_filename + UPLOAD_SUFFIX)
+                        .output()
+                        .expect("Could not create file");
+
                     return _filename;
                 }
             }
@@ -125,7 +133,6 @@ fn setup()
                 {
                     valid = false;
                 }
-                println!("{} == {} : {:?}", item, _filename, valid)
             }
             if valid
             {
@@ -171,6 +178,13 @@ fn upload_file(filename: &str) -> String
         .arg(SERVER_PATH.to_owned() + &filename_uuid + &extension)
         .output()
         .expect("could not upload file :(");
+
+
+    Command::new("rm")
+        .arg("-rf")
+        .arg(filename.to_owned() + UPLOAD_SUFFIX)
+        .output()
+        .expect("failed to delete temp file");
 
 
     return String::from(HOSTING_PATH.to_owned() + &filename_uuid + &extension);
