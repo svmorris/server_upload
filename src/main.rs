@@ -13,25 +13,38 @@ const SERVER_PATH: &str   = "chhon@butorhaz.hopto.org:/storage/http_files/";
 const HOSTING_PATH: &str  = "https://butorhaz.hopto.org/files/";
 const UPLOAD_SUFFIX: &str = ".__uploading__";
 const BLACKLIST:[&str; 7] = [UPLOAD_SUFFIX, ".temp", ".f127.", ".f299.", ".DS_Store", ".part", ".m4a"];
+const NOTIFICATION_NAME: &str    = "SERVER-UPLOADER";
 
 
 fn main()
 {
+
+
+    // run main loop
     loop
     {
+        // setup checks if the folder is present and functional, as well as attempts to fix issues
         setup();
-        let filename = get_file();
-        println!("{}", filename);
+
+        // get filename, and full path
+        let filename = &get_file();
+        let filepath_static = FOLDERPATH.to_owned() + &filename;
 
 
-        let filepath_static = FOLDERPATH.to_owned() + &*filename;
-
-
+        // upload file and get url
         let get_path: String = upload_file(&filepath_static);
 
 
-
+        // put url on clipboard
         clipboard_push(get_path, filename);
+
+
+        // delete uploaded file
+        Command::new("rm")
+            .arg("-rf")
+            .arg(filepath_static)
+            .output()
+            .expect("Failed to delete file!");
 
 
         // sleep a few seconds
@@ -39,6 +52,39 @@ fn main()
     }
 }
 
+
+fn setup()
+{
+    // if folder doesnt exist then create the folder
+    if Path::new(FOLDERPATH).exists() == false
+    {
+        println!("creating monitoring folder: {}", FOLDERPATH);
+        Command::new("mkdir")
+            .arg(FOLDERPATH)
+            .output()
+            .expect("Failed to execute command");
+
+
+        Command::new("notify-send")
+            .arg(NOTIFICATION_NAME)
+            .arg("Created monitoring folder: ".to_owned() + FOLDERPATH)
+            .output()
+            .expect("failed to send notification");
+    }
+
+
+    // if monitored path is not a folder then panic
+    else if Path::new(FOLDERPATH).metadata().unwrap().is_dir() == false
+    {
+        Command::new("notify-send")
+            .arg(NOTIFICATION_NAME)
+            .arg("FAILED: monitored path already exists, and is not a directory")
+            .output()
+            .expect("failed to send notification");
+
+        panic!("Monitored path is not a folder!");
+    }
+}
 
 
 fn get_file() -> String
@@ -92,67 +138,6 @@ fn get_file() -> String
 }
 
 
-
-fn setup()
-{
-    // if folder doesnt exist then creat the folder
-    if Path::new(FOLDERPATH).exists() == false
-    {
-        println!("creating monitoring folder: {}", FOLDERPATH);
-
-        Command::new("mkdir")
-            .arg(FOLDERPATH)
-            .output()
-            .expect("Failed to execute command");
-    }
-
-
-    // if monitored path is not a folder then panic
-    else if Path::new(FOLDERPATH).metadata().unwrap().is_dir() == false
-    { 
-        panic!("Monitored path is not a folder!");
-    }
-
-
-    // delete the first file in the folder
-    else
-    {
-        let paths = fs::read_dir(FOLDERPATH).unwrap();
-        for path in paths
-        {
-            // get filepath and name
-            let _filename = path.unwrap().file_name().into_string().unwrap();
-            let filepath_static = FOLDERPATH.to_owned() + &_filename;
-
-
-
-            let mut valid = true;
-            for item in BLACKLIST.iter()
-            {
-                if _filename.contains(item)
-                {
-                    valid = false;
-                }
-            }
-            if valid
-            {
-                // delete the file
-                Command::new("rm")
-                    .arg("-rf")
-                    .arg(filepath_static)
-                    .output()
-                    .expect("Failed to delete file!");
-            }
-
-
-            return;
-        }
-
-    }
-}
-
-
-
 fn upload_file(filename: &str) -> String
 {
     let mut extension = String::from("");
@@ -191,8 +176,7 @@ fn upload_file(filename: &str) -> String
 }
 
 
-
-fn clipboard_push(url: String, filename: String)
+fn clipboard_push(url: String, filename: &str)
 {
     // execute as shell command
     Exec::shell("echo '".to_owned() + &url + "' | xclip -sel clip")
@@ -201,7 +185,8 @@ fn clipboard_push(url: String, filename: String)
 
     // run notification that file had been copied
     Command::new("notify-send")
-        .arg("File: '".to_owned() + &filename + "' has been copied to clipboard!")
+        .arg(NOTIFICATION_NAME)
+        .arg("File: '".to_owned() + filename + "' has been copied to clipboard!")
         .output()
         .expect("could not run notify-send");
 }
