@@ -1,4 +1,4 @@
-filesize limits are fucked, esp on discord
+filesize limits are bad, esp on discord
 
 
 
