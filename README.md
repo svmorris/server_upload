@@ -71,7 +71,7 @@ const BLACKLIST:[&str; 3] = [".part", ".temp", ".f127."];
 for linx:
 ```
 cargo build --release
-sudo cp /target/release/server_upload /usr/local/bin/
+sudo cp target/release/server_upload /usr/local/bin/
 ```
 
 for mac:
