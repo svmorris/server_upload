@@ -1,9 +1,12 @@
 use std::fs;
+use std::env;
 use uuid::Uuid;
+use std::process;
 use std::path::Path;
 use std::{thread, time};
 use std::process::Command;
 use subprocess::Exec;
+
 
 
 const TIMEOUT: u64        = 3000;
@@ -46,6 +49,14 @@ fn main()
             .output()
             .expect("Failed to delete file!");
 
+
+        // get command line arguments
+        let args: Vec<String> = env::args().collect();
+        // if the second argument is -k then kill the program after one run
+        if (args.len() == 2 ) && (args[1] == "-k")
+        {
+            process::exit(0x0);
+        }
 
         // sleep a few seconds
         thread::sleep(time::Duration::from_millis(TIMEOUT));
